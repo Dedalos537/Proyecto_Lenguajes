@@ -1,8 +1,10 @@
+% policies.pl
+
 % Hechos: Tipos de cookies y si requieren consentimiento
-cookie_type(essential, false).    % No requiere consentimiento
-cookie_type(analytics, true).     % Requiere consentimiento
-cookie_type(marketing, true).     % Requiere consentimiento
-cookie_type(performance, true).   % Requiere consentimiento
+cookie_type(essential, false).
+cookie_type(analytics, true).
+cookie_type(marketing, true).
+cookie_type(performance, true).
 
 % Reglas:
 % Puede establecer una cookie si:
@@ -23,12 +25,12 @@ requires_consent(CookieType, Requires) :-
 
 % Predicado para clasificar una cookie (ejemplo simple)
 classify_cookie(Name, Type) :-
-    member(Name, [session_id, csrf_token]),
+    member(Name, ['session_id', 'csrf_token']), % <-- Aquí se añaden las comillas
     Type = essential.
 classify_cookie(Name, Type) :-
-    member(Name, [_ga, _utm]),
+    member(Name, ['_ga', '_utm']),             % <-- ¡Aquí está la corrección clave!
     Type = analytics.
 classify_cookie(Name, Type) :-
-    member(Name, [ad_id, fb_pixel]),
+    member(Name, ['ad_id', 'fb_pixel']),      % <-- Aquí también
     Type = marketing.
 classify_cookie(_, unknown). % Por defecto si no se clasifica

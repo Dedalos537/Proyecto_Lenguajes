@@ -8,7 +8,7 @@ const { spawn } = require('child_process');
 // más robusta del proceso de Prolog.
 class PrologService {
     constructor() {
-        this.prologPath = path.join(__dirname, 'policies.pl');
+        this.prologPath = path.join(__dirname, '..', 'prolog', 'policies.pl')
         this.isReady = false;
         this.queue = []; // Para manejar peticiones mientras Prolog inicia
         this.prologProcess = null;
@@ -29,12 +29,12 @@ class PrologService {
         });
 
         this.prologProcess.on('error', (err) => {
-            console.error('Failed to start Prolog process:', err);
+            console.error('Error al iniciar el proceso de prolog:', err);
             this.isReady = false;
         });
 
         this.prologProcess.on('close', (code) => {
-            console.log(`Prolog process exited with code ${code}`);
+            console.log(`Salio el proceso de prolog con codigo ${code}`);
             this.isReady = false;
             // Podrías intentar reiniciar o manejar el error
         });
@@ -42,7 +42,7 @@ class PrologService {
         // Simula que Prolog está listo después de un breve retraso
         setTimeout(() => {
             this.isReady = true;
-            console.log('Prolog service ready.');
+            console.log('Servicio Prolog Listo');
             this.processQueue();
         }, 1000); // Dar tiempo para que Prolog "inicie"
     }
@@ -65,10 +65,9 @@ class PrologService {
                 this.queue.push({ query, resolve, reject });
                 return;
             }
-
             // En un entorno real, enviarías la 'query' al proceso de Prolog
             // y esperarías su respuesta. Aquí, la simulamos.
-            console.log(`Executing Prolog query: ${query}`);
+            console.log(`Ejecutando query en Prolog${query}`);
 
             if (query.startsWith('can_set_cookie')) {
                 // Simulación de la lógica de Prolog
